@@ -1,0 +1,59 @@
+# Meridian Terminal — Ground Operations System
+
+Console app in C# for managing airport ground operations: flights, gates,
+passengers, boarding, baggage, bookings/standby, and ground staff.
+
+## How to Run
+
+1. Create a console project and add `AirportSystem.cs` to it
+   (or replace the default `Program.cs`):
+   ```
+   dotnet new console -n MeridianTerminal
+   ```
+2. Build and run:
+   ```
+   dotnet build
+   dotnet run
+   ```
+3. Follow the on-screen menu.
+
+Note: 4 gates are pre-loaded (G1, G2 allow international; G3, G4 domestic
+only). No staff are pre-loaded, so "Assign Staff" needs a staff record
+added first.
+
+## Design Choices
+
+- Minimum connection time: **45 minutes**
+- Baggage allowance: **30kg Standard / 40kg VIP / 35kg Reduced Mobility**
+- Max staff duty hours per shift: **7 hours**
+- Standby list limit: set per flight when registering it
+- Gate occupancy window: from a flight's arrival time to its departure time
+
+## Features Implemented
+
+- Register flights, prevent duplicate flight numbers
+- Assign gates, blocking international flights on domestic-only gates and
+  blocking overlapping time windows
+- Update flight status (Scheduled/Delayed/Boarding/Departed/Cancelled);
+  boarding and baggage are blocked once Departed/Cancelled
+- Register passengers, with optional connecting flight link
+- Check boarding eligibility and process boarding, enforcing the 45-minute
+  connection rule with a specific reason
+- Register baggage, tracking combined weight per passenger per flight
+  against their category's allowance
+- View a passenger's total baggage weight
+- Book passengers (Confirmed/Standby/Rejected based on capacity and
+  standby limit), cancel bookings with automatic standby promotion, view
+  standby list
+- Assign staff to a flight or gate, enforcing the 7-hour shift limit; view
+  a staff member's duty hours
+- All numeric/date input is validated (no crashes on bad input); all
+  rejection messages state the specific reason
+
+## Known Limitation
+
+No "Register Staff" menu option exists yet — staff records must be added
+manually before "Assign Staff" can be used.
+
+No data is saved between runs (session-only), as required by the
+assignment.
